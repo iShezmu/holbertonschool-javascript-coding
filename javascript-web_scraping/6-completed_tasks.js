@@ -12,20 +12,19 @@ request(apiUrl, (error, response, body) => {
     const completedTasks = todos
       .filter(task => task.completed)
       .reduce((acc, task) => {
-        if (acc[task.userId]) {
-          acc[task.userId] += 1;
-        } else {
-          acc[task.userId] = 1;
-        }
+        acc[task.userId] = (acc[task.userId] || 0) + 1;
         return acc;
       }, {});
 
-    // Only print users with completed tasks
-    for (const user in completedTasks) {
-      if (completedTasks[user]) {
-        console.log(`${user}: ${completedTasks[user]}`);
-      }
-    }
+    // Create an object with counts for users who have completed tasks
+    const usersWithCompletedTasks = Object.keys(completedTasks)
+      .filter(userId => completedTasks[userId] > 0)
+      .reduce((acc, userId) => {
+        acc[userId] = completedTasks[userId];
+        return acc;
+      }, {});
+
+    console.log(JSON.stringify(usersWithCompletedTasks));
   } else {
     console.log(`Error: ${response.statusCode}`);
   }
