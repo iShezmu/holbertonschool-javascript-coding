@@ -9,16 +9,9 @@ request(apiUrl, (error, response, body) => {
 
   if (response.statusCode === 200) {
     const films = JSON.parse(body).results;
-    console.log(films);
+    const wedgeFilmsCount = films.filter(film => film.characters.includes('https://swapi.dev/api/people/18/')).length;
 
-    const wedgeFilms = films.filter((film) => {
-      const isInFilm = film.characters.includes('https://swapi-api.hbtn.io/api/people/18/');
-      console.log(film.character);
-      console.log(isInFilm);
-      return isInFilm;
-    }).length;
-
-    console.log(wedgeFilms);
+    console.log(wedgeFilmsCount); // Print the count to the console
   } else {
     console.log(`Error: ${response.statusCode}`);
   }
