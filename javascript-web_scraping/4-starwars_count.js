@@ -9,8 +9,13 @@ request(apiUrl, (error, response, body) => {
 
   if (response.statusCode === 200) {
     const films = JSON.parse(body).results;
+    console.log(films);
+
     const wedgeFilms = films.filter((film) => {
-      return film.characters.includes('https://swapi-api.hbtn.io/api/people/18/');
+      const isInFilm = film.characters.includes('https://swapi-api.hbtn.io/api/people/18/');
+      console.log(film.character);
+      console.log(isInFilm);
+      return isInFilm;
     }).length;
 
     console.log(wedgeFilms);
